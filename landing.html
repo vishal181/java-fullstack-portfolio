@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vishal Ingle — Java Full-Stack Developer</title>
+  <meta name="description" content="Portfolio of a Java Full-Stack Developer. Backend (Spring Boot), Frontend (React/Vue), DB, Cloud & DevOps." />
+
+  <style>
+    /* === Reset & base === */
+    :root{
+      --bg:#0b1020;
+      --card:#0f1724;
+      --muted:#9aa4b2;
+      --accent:#60a5fa;
+      --accent-2:#7c3aed;
+      --glass: rgba(255,255,255,0.03);
+      --radius:14px;
+      --glass-2: rgba(255,255,255,0.02);
+      --white: #e6eef8;
+    }
+    [data-theme="light"]{
+      --bg:#f7fbff;
+      --card:#ffffff;
+      --muted:#475569;
+      --accent:#2563eb;
+      --accent-2:#7c3aed;
+      --glass: rgba(10,10,10,0.02);
+      --glass-2: rgba(10,10,10,0.01);
+      --white:#0b1220;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(96,165,250,0.06), transparent),
+                  radial-gradient(1000px 500px at 90% 90%, rgba(124,58,237,0.04), transparent),
+                  var(--bg);
+      color:var(--white);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      scroll-behavior:smooth;
+      padding:32px;
+    }
+
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+
+    header{
+      display:flex;
+      justify-content:space-between;
+      gap:16px;
+      align-items:center;
+      margin-bottom:28px;
+    }
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      text-decoration:none;
+      color:var(--white);
+    }
+    .avatar{
+      width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:inline-grid;place-items:center;font-weight:700;color:white;font-size:18px;box-shadow:0 8px 30px rgba(12,12,30,0.6);
+    }
+    nav{display:flex;gap:12px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px}
+    nav a:hover{background:var(--glass);color:var(--white)}
+
+    .controls{display:flex;gap:8px;align-items:center}
+
+    /* Hero */
+    .hero{
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:28px;
+      align-items:center;
+      margin-bottom:32px;
+    }
+    .intro{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      padding:28px;border-radius:var(--radius);backdrop-filter: blur(6px);
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+    }
+    .title{font-size:28px;margin:0 0 8px}
+    .role{font-weight:600;color:var(--accent);margin-bottom:10px}
+    .lead{color:var(--muted);margin-bottom:16px}
+    .cta-row{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      border:none;color:white;padding:10px 16px;border-radius:12px;font-weight:600;cursor:pointer;
+      box-shadow:0 8px 24px rgba(96,165,250,0.12);text-decoration:none;
+    }
+    .btn.secondary{background:transparent;border:1px solid var(--glass);color:var(--white)}
+
+    /* Right column: quick info */
+    .card{
+      background:linear-gradient(180deg,var(--card),var(--glass));
+      border-radius:16px;padding:18px;box-shadow:0 8px 30px rgba(2,6,23,0.6);
+    }
+    .stat{display:flex;justify-content:space-between;margin-bottom:8px}
+    .small{font-size:12px;color:var(--muted)}
+
+    /* Sections */
+    section{margin-bottom:36px}
+    h2.section-title{font-size:18px;margin:0 0 12px;color:var(--white)}
+    .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+
+    /* Skills */
+    .skill{
+      background:var(--glass-2);padding:12px;border-radius:12px;
+    }
+    .skill .name{display:flex;justify-content:space-between;font-size:14px;margin-bottom:8px}
+    .bar{height:10px;background:rgba(255,255,255,0.06);border-radius:999px;overflow:hidden}
+    .bar > i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:999px;transition:width 1.2s cubic-bezier(.2,.9,.3,1)}
+
+    /* Projects */
+    .project-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      padding:16px;border-radius:12px;cursor:pointer;transition:transform .2s ease, box-shadow .2s;
+      border:1px solid var(--glass);
+    }
+    .project-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,0.5)}
+    .project-title{font-weight:700;margin-bottom:8px}
+    .project-desc{color:var(--muted);font-size:14px;margin-bottom:12px}
+    .tag{display:inline-block;padding:6px 8px;border-radius:999px;font-size:12px;margin-right:6px;background:rgba(255,255,255,0.03);color:var(--muted)}
+
+    /* Modal */
+    .modal {
+      position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:28px;
+      background:linear-gradient(180deg,rgba(2,6,23,0.6),rgba(2,6,23,0.9));
+      z-index:120;
+    }
+    .modal.show{display:flex}
+    .modal-inner{width:100%;max-width:840px;background:var(--card);padding:20px;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,0.7)}
+    .modal-close{float:right;background:transparent;border:none;color:var(--muted);font-size:20px;cursor:pointer}
+
+    /* Timeline */
+    .timeline{border-left:2px solid rgba(255,255,255,0.04);padding-left:16px}
+    .timeline-item{position:relative;padding:16px 0}
+    .timeline-item:before{content:"";position:absolute;left:-11px;top:16px;width:10px;height:10px;background:var(--accent);border-radius:50%}
+
+    /* Contact */
+    form{display:grid;gap:12px}
+    input,textarea{background:transparent;border:1px solid var(--glass);padding:12px;border-radius:10px;color:var(--white);outline:none}
+    input::placeholder,textarea::placeholder{color:var(--muted)}
+    textarea{min-height:110px;resize:vertical}
+
+    /* Footer */
+    footer{display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--muted);font-size:13px;padding-top:10px;border-top:1px dashed rgba(255,255,255,0.02)}
+
+    /* Reveal on scroll */
+    .reveal{opacity:0;transform:translateY(18px);transition:all 0.8s cubic-bezier(.2,.9,.3,1)}
+    .reveal.visible{opacity:1;transform:none}
+
+    /* Small responsive fixes */
+    @media (max-width:880px){
+      .hero{grid-template-columns:1fr}
+      header{flex-direction:column;align-items:stretch;gap:12px}
+      footer{flex-direction:column;align-items:flex-start}
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="wrap">
+    <!-- Header -->
+    <header>
+      <a class="brand" href="#">
+        <div class="avatar">VI</div>
+        <div>
+          <div style="font-weight:700">Vishal Ingle</div>
+          <div style="font-size:12px;color:var(--muted)">Java Full-Stack Developer</div>
+        </div>
+      </a>
+
+      <nav>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="controls">
+        <button id="themeToggle" class="btn secondary" title="Toggle theme">Toggle Theme</button>
+        <a id="downloadResume" class="btn" href="#" download="Vishal_Ingle_Resume.pdf">Download Resume</a>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="intro card reveal">
+        <div class="role">Java · Spring Boot · React · AWS · SQL</div>
+        <h1 class="title">Hi, I'm <span style="color:var(--accent)">Vishal</span></h1>
+        <div style="font-weight:600;margin-bottom:8px">
+          <span id="typed"></span><span id="cursor" style="opacity:1">|</span>
+        </div>
+        <p class="lead">I build scalable backend systems with Spring Boot and create responsive frontends using React. I love clean architecture, automated testing (JUnit/Mockito), and delivering secure, maintainable applications.</p>
+
+        <div class="cta-row">
+          <a class="btn" href="#projects">View Projects</a>
+          <button class="btn secondary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact Me</button>
+        </div>
+      </div>
+
+      <aside class="card reveal" aria-hidden="false">
+        <div class="stat">
+          <div>
+            <div style="font-weight:700">5+ yrs</div>
+            <div class="small">Experience</div>
+          </div>
+          <div>
+            <div style="font-weight:700">50+</div>
+            <div class="small">Projects</div>
+          </div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:12px 0">
+
+        <div style="margin-top:12px">
+          <div class="small">Primary stack</div>
+          <div style="margin-top:8px">
+            <span class="tag">Java</span>
+            <span class="tag">Spring Boot</span>
+            <span class="tag">REST</span>
+            <span class="tag">React</span>
+            <span class="tag">MySQL/Postgres</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="reveal">
+      <h2 class="section-title">About</h2>
+      <div style="display:flex;gap:18px;flex-wrap:wrap">
+        <div style="flex:1;min-width:260px" >
+          <div class="card" style="padding:18px">
+            <p style="margin-top:0;color:var(--muted)">
+              I'm a Java Full-Stack developer focused on building production-grade web applications. I design and implement microservices with Spring Boot, secure APIs, and integrate modern frontends with React. I'm experienced with cloud deployments (AWS), CI/CD pipelines, and automated testing.
+            </p>
+            <ul style="color:var(--muted);margin:12px 0 0;padding-left:18px">
+              <li>Backend: Spring Boot, Spring Security, Spring Data</li>
+              <li>Frontend: React, TypeScript, Tailwind / CSS</li>
+              <li>Databases: PostgreSQL, MySQL, MongoDB</li>
+              <li>Cloud & DevOps: AWS (EB, S3, RDS), Docker, GitHub Actions</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="width:320px">
+          <div class="card" style="padding:14px">
+            <div style="font-weight:700;margin-bottom:8px">Contact</div>
+            <div style="color:var(--muted);font-size:14px">Email: <a id="mailLink" href="mailto:youremail@example.com" style="color:var(--accent)">youremail@example.com</a></div>
+            <div style="color:var(--muted);font-size:14px;margin-top:6px">Location: Pune, India</div>
+            <div style="margin-top:12px">
+              <a href="#" class="tag">LinkedIn</a>
+              <a href="#" class="tag">GitHub</a>
+              <a href="#" class="tag">LeetCode</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="reveal">
+      <h2 class="section-title">Skills</h2>
+      <div class="grid-3">
+        <div class="skill">
+          <div class="name"><span>Java / Spring Boot</span><span>95%</span></div>
+          <div class="bar"><i data-width="95%"></i></div>
+        </div>
+        <div class="skill">
+          <div class="name"><span>REST APIs / Microservices</span><span>92%</span></div>
+          <div class="bar"><i data-width="92%"></i></div>
+        </div>
+        <div class="skill">
+          <div class="name"><span>React / TypeScript</span><span>85%</span></div>
+          <div class="bar"><i data-width="85%"></i></div>
+        </div>
+        <div class="skill">
+          <div class="name"><span>SQL / Data Modeling</span><span>88%</span></div>
+          <div class="bar"><i data-width="88%"></i></div>
+        </div>
+        <div class="skill">
+          <div class="name"><span>Testing: JUnit, Mockito</span><span>86%</span></div>
+          <div class="bar"><i data-width="86%"></i></div>
+        </div>
+        <div class="skill">
+          <div class="name"><span>Cloud & DevOps (AWS/Docker)</span><span>80%</span></div>
+          <div class="bar"><i data-width="80%"></i></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="reveal">
+      <h2 class="section-title">Selected Projects</h2>
+      <div class="grid-3">
+        <div class="project-card" data-title="E-Commerce Microservices" data-desc="A Spring Boot microservices platform for e-commerce with product, cart, order, and payment services. Deployed on AWS Elastic Beanstalk. Uses JWT auth, RabbitMQ for async processing, and CI/CD pipelines." data-tech="Spring Boot, React, MySQL, RabbitMQ, AWS">
+          <div class="project-title">E-Commerce Microservices</div>
+          <div class="project-desc">Microservices e-commerce platform with resilient services and async processing.</div>
+          <div><span class="tag">Spring Boot</span><span class="tag">AWS</span></div>
+        </div>
+
+        <div class="project-card" data-title="Document Upload POC" data-desc="Proof of concept to upload/download large documents, process metadata, and store files in S3 with signed URLs. Frontend built in React and backend in Spring Boot." data-tech="Spring Boot, S3, React">
+          <div class="project-title">Document Upload POC</div>
+          <div class="project-desc">Large file handling with secure upload & download via pre-signed URLs.</div>
+          <div><span class="tag">S3</span><span class="tag">Presigned URLs</span></div>
+        </div>
+
+        <div class="project-card" data-title="Inventory Dashboard" data-desc="A dashboard for inventory and analytics with REST APIs, real-time updates using WebSockets, and charts." data-tech="Spring Boot, React, WebSocket, PostgreSQL">
+          <div class="project-title">Inventory Dashboard</div>
+          <div class="project-desc">Real-time inventory monitoring with charts and alerts.</div>
+          <div><span class="tag">WebSocket</span><span class="tag">Postgres</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="reveal">
+      <h2 class="section-title">Experience & Education</h2>
+      <div class="grid-3">
+        <div>
+          <div class="small" style="margin-bottom:8px">Work</div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div style="font-weight:700">Senior Developer — Birlasoft</div>
+              <div class="small">2022 — Present</div>
+              <div style="color:var(--muted);margin-top:6px">Working on Spring Boot microservices and cloud deployments for enterprise clients.</div>
+            </div>
+            <div class="timeline-item">
+              <div style="font-weight:700">Software Engineer — XYZ</div>
+              <div class="small">2019 — 2022</div>
+              <div style="color:var(--muted);margin-top:6px">Full-stack development with Java & React, built critical product features.</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="small" style="margin-bottom:8px">Education</div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div style="font-weight:700">B.E. in Computer Science</div>
+              <div class="small">2015 — 2019</div>
+              <div style="color:var(--muted);margin-top:6px">University Name</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="small" style="margin-bottom:8px">Open Source / Contributions</div>
+          <div style="color:var(--muted)">Contributor to internal libs and small OSS projects — improved test coverage and CI pipelines.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="reveal">
+      <h2 class="section-title">Contact</h2>
+      <div class="card">
+        <form id="contactForm">
+          <input type="text" id="name" placeholder="Your name" required />
+          <input type="email" id="email" placeholder="Your email" required />
+          <input type="text" id="subject" placeholder="Subject" />
+          <textarea id="message" placeholder="Message" required></textarea>
+          <div style="display:flex;gap:8px">
+            <button type="submit" class="btn">Send Email</button>
+            <button type="button" class="btn secondary" id="copyEmail">Copy Email</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <div>© <span id="year"></span> Vishal Ingle — Java Full-Stack Developer</div>
+      <div>Built with ❤️ • <span style="color:var(--muted)">HTML • CSS • JS</span></div>
+    </footer>
+  </div>
+
+  <!-- Project modal -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-inner">
+      <button class="modal-close" aria-label="Close" onclick="closeModal()">✕</button>
+      <h3 id="modalTitle"></h3>
+      <p id="modalTech" style="color:var(--muted);font-size:14px"></p>
+      <p id="modalDesc" style="margin-top:8px;color:var(--muted)"></p>
+      <div style="margin-top:14px">
+        <a id="modalRepo" href="#" class="tag" target="_blank">View Repo</a>
+        <a id="modalLive" href="#" class="tag" target="_blank">Live Demo</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ====== Small helpers & initial state ====== */
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // theme toggle
+    const themeBtn = document.getElementById('themeToggle');
+    themeBtn.addEventListener('click', () => {
+      const el = document.documentElement || document.body;
+      const current = document.body.getAttribute('data-theme');
+      document.body.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    });
+
+    // resume download: placeholder uses mailto if no file provided
+    const resumeBtn = document.getElementById('downloadResume');
+    resumeBtn.addEventListener('click', (e) => {
+      // If you have a resume file, set href to path/to/resume.pdf and remove preventDefault.
+      // For now we'll show a toast (simple)
+      e.preventDefault();
+      alert('Replace the href on "Download Resume" with your resume PDF path (e.g., /files/Vishal_Ingle_Resume.pdf).');
+    });
+
+    // copy email
+    document.getElementById('copyEmail').addEventListener('click', () => {
+      navigator.clipboard?.writeText('youremail@example.com').then(_ => {
+        alert('Email copied to clipboard');
+      }, () => alert('Clipboard not available'));
+    });
+
+    // contact form uses mailto
+    document.getElementById('contactForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = encodeURIComponent(document.getElementById('name').value);
+      const email = encodeURIComponent(document.getElementById('email').value);
+      const subject = encodeURIComponent(document.getElementById('subject').value || 'Contact from portfolio');
+      const message = encodeURIComponent(document.getElementById('message').value + '\n\nFrom: ' + name + ' (' + email + ')');
+      window.location.href = `mailto:youremail@example.com?subject=${subject}&body=${message}`;
+    });
+
+
+    /* ====== Typing effect ====== */
+    const phrases = ['Building scalable Java & Spring Boot apps', 'Designing clean APIs', 'Automating tests with JUnit & Mockito', 'Deploying to AWS'];
+    let tIndex = 0, cIndex = 0, forward = true;
+    const typedEl = document.getElementById('typed'), cursor = document.getElementById('cursor');
+
+    function typeTick(){
+      const current = phrases[tIndex];
+      if (forward) {
+        cIndex++;
+        if (cIndex >= current.length) { forward = false; setTimeout(typeTick,1200); return; }
+      } else {
+        cIndex--;
+        if (cIndex === 0) { forward = true; tIndex = (tIndex+1) % phrases.length; setTimeout(typeTick,300); return; }
+      }
+      typedEl.textContent = current.slice(0, cIndex);
+      setTimeout(typeTick, forward ? 80 : 40);
+    }
+    setTimeout(typeTick,500);
+
+    // cursor blink
+    setInterval(()=> { cursor.style.opacity = cursor.style.opacity === '0' ? '1' : '0' }, 500);
+
+
+    /* ====== Skill bars animation on reveal ====== */
+    function animateSkillBars(){
+      document.querySelectorAll('.bar > i').forEach(el=>{
+        const w = el.getAttribute('data-width') || '60%';
+        el.style.width = w;
+      });
+    }
+
+    /* ====== Reveal on scroll ====== */
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          entry.target.classList.remove('reveal');
+          if (entry.target.id === 'skills') animateSkillBars();
+        }
+      });
+    }, {threshold: 0.12});
+    reveals.forEach(r => observer.observe(r));
+
+    // also animate initial visible ones quickly
+    document.querySelectorAll('.reveal').forEach(node=>{
+      if (node.getBoundingClientRect().top < window.innerHeight - 100) {
+        node.classList.add('visible');
+        if (node.id === 'skills') animateSkillBars();
+      }
+    });
+
+    /* ====== Project modal logic ====== */
+    const modal = document.getElementById('modal');
+    function openModal(data){
+      document.getElementById('modalTitle').textContent = data.title || '';
+      document.getElementById('modalDesc').textContent = data.desc || '';
+      document.getElementById('modalTech').textContent = data.tech ? 'Tech: ' + data.tech : '';
+      // placeholder links (replace)
+      document.getElementById('modalRepo').href = data.repo || '#';
+      document.getElementById('modalLive').href = data.live || '#';
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden','false');
+    }
+    function closeModal(){
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden','true');
+    }
+    // click project to open modal
+    document.querySelectorAll('.project-card').forEach(card=>{
+      card.addEventListener('click', ()=> {
+        openModal({
+          title: card.dataset.title,
+          desc: card.dataset.desc,
+          tech: card.dataset.tech,
+          repo: '#', live:'#'
+        })
+      });
+    });
+    modal.addEventListener('click', (e)=> { if (e.target === modal) closeModal() });
+
+    /* ====== Small accessibility/helpful touches ====== */
+    // keyboard close modal
+    document.addEventListener('keydown', (e)=> { if (e.key === 'Escape') closeModal(); });
+
+    /* ====== Optional: Replace placeholder content quickly (edit variables) ====== */
+    // To personalize, change these values:
+    const PROFILE = {
+      name: 'Vishal Ingle',
+      title: 'Java Full-Stack Developer',
+      email: 'youremail@example.com',
+      location: 'Pune, India',
+      linkedin: '#',
+      github: '#'
+    };
+    // apply quick replacements
+    document.querySelector('.brand div div').textContent = PROFILE.name;
+    document.querySelector('.role').textContent = PROFILE.title;
+    document.getElementById('mailLink').href = 'mailto:' + PROFILE.email;
+    document.getElementById('mailLink').textContent = PROFILE.email;
+    document.getElementById('downloadResume').href = '#'; // set to your resume path
+  </script>
+</body>
+</html>
