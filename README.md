@@ -34,3 +34,4 @@ This website showcases my skills, projects, and experience as a full stack devel
 
 ---
 
+## 📂 Folder Structure
